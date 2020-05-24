@@ -2,22 +2,53 @@
 <head>
 <meta charset="UTF-8" >
 <title>موقع تسجيل الدكتورا</title>
+<script src="https://www.gstatic.com/firebasejs/7.14.3/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.3/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.3/firebase-database.js"></script>
 </head>
 <body>
-    <form>
-        <input placeholder="ادخل الاسم">
+    
+        <input id="name" placeholder="ادخل الاسم">
         <br>
-        <input placeholder="ادخل اللقب">
+        <input  id ="prename"placeholder="ادخل اللقب">
         <br>
 
-        <input  placeholder="ادخل تاريخ التسجيل في الدكتورا"/>
+        <input id="date"  placeholder="ادخل تاريخ التسجيل في الدكتورا"/>
         <br>
-        <input   placeholder="ادخل التخصص" />
+        <input   id="sp" placeholder="ادخل التخصص" />
         <br>
-        <button title="ارسل">
+        <button id="sumb" title="ارسل">
 ادخل
         </button>
-    </form>
+    
+    <script>
+        var firebaseConfig = {
+          apiKey: "AIzaSyA3YltChWDcrQjZhgrv5O_df5VeA1CcVRo",
+          authDomain: "emailaut-8374c.firebaseapp.com",
+          databaseURL: "https://emailaut-8374c.firebaseio.com",
+          projectId: "emailaut-8374c",
+          storageBucket: "emailaut-8374c.appspot.com",
+          messagingSenderId: "441619242876",
+          appId: "1:441619242876:web:b77ee0cdc13ee5ee8ecef9"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        document.getElementById("sumb").addEventListener("click",submit,false)
+        function submit()
+        {
+            var name=document.getElementById("name").value
+            var prename=document.getElementById("prename").value
+            var date=document.getElementById("date").value
+            var sp=document.getElementById("sp").value
+            let database = firebase.database();
+            let ref = database.ref('docto');
+            ref.push({name:name,prename,sp,date})
+            
+        }
+
+
+
+    </script>
 
 </body>
 </html>

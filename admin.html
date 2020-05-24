@@ -3,17 +3,83 @@
 <title>
     صفحة الادارة 
 </title>
+<script src="https://www.gstatic.com/firebasejs/7.14.3/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.3/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.3/firebase-database.js"></script>
 </head>
 <body>
-    <input placeholder="اسم المستخدم"/>
+    <div id="loginform">
+    <input  id="user"placeholder="اسم المستخدم"/>
     <br>
-    <input placeholder="كلمة السر"/>
+    <input  id="pasword"placeholder="كلمة السر"/>
     <br>
-    <button >دخول</button>
-    تحميل المسجلين
- <br>
- 
-    <a href="./result.csv">تحميل</a>
+    <button  id="sub">دخول</button>
+     <br>
+ </div>
+ <div  id="login"style="display: none;">
+
+
+
+
+
+    <button  id="dowlead"> تحميل القائمة</button>
+ </div>
+        <script>
+             var firebaseConfig = {
+          apiKey: "AIzaSyA3YltChWDcrQjZhgrv5O_df5VeA1CcVRo",
+          authDomain: "emailaut-8374c.firebaseapp.com",
+          databaseURL: "https://emailaut-8374c.firebaseio.com",
+          projectId: "emailaut-8374c",
+          storageBucket: "emailaut-8374c.appspot.com",
+          messagingSenderId: "441619242876",
+          appId: "1:441619242876:web:b77ee0cdc13ee5ee8ecef9"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+            document.getElementById("sub").addEventListener("click",pasword)
+            document.getElementById("dowlead").addEventListener("click",dowlead)
+            function pasword()
+            {
+                var user=document.getElementById("user").value
+                var pasword=document.getElementById("pasword").value
+                if(user=="admin" )
+                {
+                    if(pasword=="admin")
+                    {
+                        document.getElementById("loginform").style.display="none"
+                        document.getElementById("login").style.display="block"
+                        console.log("login")
+                    }
+                }
+            
+                
+            }
+            text="الاسم,القب,تاريخ التسجيل,الفرع"+"\n"
+            function dowlead()
+            {
+                let database = firebase.database();
+                 let ref = database.ref('docto');
+                 ref.on("value",(snap)=>
+                 {
+                    snap.forEach(function(child)
+                    {
+                        console.log(child)
+                        text=text+child.val().name+","+child.val().prename+","+child.val().date+","+child.val().sp+"\n"
+                    })
+console.log(text)
+
+                     let a = document.createElement('a');
+a.href =  "data:text/csv;charset=utf-8,\uFEFF"+encodeURIComponent(text);
+a.download = 'result.csv';
+a.click();
+
+                 })
+                 
+            }
+            
+
+
+        </script>
 </body>
 
 </html>
